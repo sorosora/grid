@@ -1,7 +1,7 @@
 {
-  "name": "grid",
+  "name": "@sorosora/grid",
   "version": "1.0.0",
-  "description": "",
+  "description": "grid system for [styled-components](https://github.com/styled-components/styled-components).",
   "main": "./lib",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,5 +17,17 @@
   "license": "MIT",
   "devDependencies": {
     "styled-components": "^4.1.3"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sorosora/grid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sorosora/grid/issues"
+  },
+  "homepage": "https://github.com/sorosora/grid#readme"
 }
