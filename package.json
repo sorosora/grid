@@ -1,0 +1,21 @@
+{
+  "name": "grid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "styled-components",
+    "styled-system",
+    "grid",
+    "flexbox"
+  ],
+  "author": "sorosora",
+  "license": "MIT",
+  "devDependencies": {
+    "styled-components": "^4.1.3"
+  }
+}
