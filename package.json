@@ -2,9 +2,12 @@
   "name": "@sorosora/grid",
   "version": "1.0.0",
   "description": "grid system for [styled-components](https://github.com/styled-components/styled-components).",
-  "main": "./lib",
+  "main": "dist/grid.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:lib && npm run build:dist",
+    "build:lib": "babel src --out-dir lib",
+    "build:dist": "rollup -c"
   },
   "keywords": [
     "react",
@@ -16,12 +19,23 @@
   "author": "sorosora",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-plugin-styled-components": "^1.10.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "rollup-plugin-babel": "^4.1.0",
     "styled-components": "^4.1.3"
   },
-  "directories": {
-    "lib": "lib"
+  "peerDependencies": {
+    "styled-components": ">= 3"
   },
-  "dependencies": {},
+  "directories": {
+    "src": "src"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sorosora/grid.git"
