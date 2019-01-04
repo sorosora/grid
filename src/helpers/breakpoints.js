@@ -1,12 +1,7 @@
 import { createBreakpoints } from '@sorosora/styled-breakpoints';
+import { breakpoints } from './defaultValue';
 
-const defaultBreakpoints = {
-  desktop: 1200,
-  tablet: 768,
-  phone: 0,
-};
-
-const { max } = createBreakpoints(defaultBreakpoints);
+const { max } = createBreakpoints(breakpoints);
 
 const media = {
   tablet: max('tablet'),
