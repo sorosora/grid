@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { media } from './helpers/breakpoints';
 import withViewport from './helpers/withViewport';
 import { getHalfMeasure, percentage } from './helpers';
 
@@ -6,18 +7,6 @@ const wrapperGridWidth = '1200px';
 const fullWidth = '100vw';
 const gridGutter = '32px';
 const wrapperPadding = '16px';
-
-const defaultSizes = {
-  desktop: 1440,
-  tablet: 1024,
-  phone: 480,
-};
-
-const defaultHtmlFontSize = 16;
-
-const below = size => `@media (max-width: ${defaultSizes[size] / defaultHtmlFontSize}em)`;
-
-const media = { below };
 
 const fullWidthWrapperStyle = css`
   position: relative;
@@ -60,12 +49,12 @@ const checkFull = (desktop, tablet, phone) => {
 const FullWidthWrapper = withViewport(styled.div`
   ${({ enabled: [desktop = true] = [] }) => (desktop ? fullWidthWrapperStyle : '')};
   
-  ${media.below('tablet')} {
+  ${media.tablet} {
     ${({ enabled: [desktop = true, tablet] = [] }) => checkReset(desktop, tablet)};
     ${({ enabled: [desktop = true, tablet] = [] }) => checkFull(desktop, tablet)};
   }
   
-  ${media.below('phone')} {
+  ${media.phone} {
     ${({ enabled: [desktop = true, tablet, phone] = [] }) => checkReset(desktop, tablet, phone)};
     ${({ enabled: [desktop = true, tablet, phone] = [] }) => checkFull(desktop, tablet, phone)};
   }
@@ -82,7 +71,7 @@ const Col = styled.div`
   max-width: ${({ width: [desktop] = [] }) => percentage(desktop)};
   font-size: 0;
   
-  ${media.below('tablet')} {
+  ${media.tablet} {
     display: ${({ width: [, tablet] = [] }) => (tablet === 0 ? 'none' : 'block')};
     flex-basis: ${({ width: [, tablet] = [] }) => percentage(tablet)};
     order: ${({ order: [, tablet] = [] }) => tablet};
@@ -91,7 +80,7 @@ const Col = styled.div`
     max-width: ${({ width: [, tablet] = [] }) => percentage(tablet)};
   }
   
-  ${media.below('phone')} {
+  ${media.phone} {
     display: ${({ width: [, , phone] = [] }) => (phone === 0 ? 'none' : 'block')};
     flex-basis: ${({ width: [, , phone] = [] }) => percentage(phone)};
     order: ${({ order: [, , phone] = [] }) => phone};
@@ -142,7 +131,7 @@ const Grid = styled.div`
     padding-right: ${({ gutter: [desktop = gridGutter] = [] }) => getHalfMeasure(desktop)};
   }
   
-  ${media.below('tablet')} {
+  ${media.tablet} {
     margin-top: ${({ 'vertical-gutter': [, tablet = ''] = [] }) => getHalfMeasure(`-${tablet}`)};
     margin-bottom: ${({ 'vertical-gutter': [, tablet = ''] = [] }) => getHalfMeasure(`-${tablet}`)};
     margin-left: ${({ gutter: [, tablet = ''] = [] }) => getHalfMeasure(`-${tablet}`)};
@@ -173,7 +162,7 @@ const Grid = styled.div`
     }
   }
   
-  ${media.below('phone')} {
+  ${media.phone} {
     margin-top: ${({ 'vertical-gutter': [, , phone = ''] = [] }) => getHalfMeasure(`-${phone}`)};
     margin-bottom: ${({ 'vertical-gutter': [, , phone = ''] = [] }) => getHalfMeasure(`-${phone}`)};
     margin-left: ${({ gutter: [, , phone = ''] = [] }) => getHalfMeasure(`-${phone}`)};
@@ -215,13 +204,13 @@ const GridWrapper = styled.div`
   /* set width small than max-width */
   width: 100%;
   
-  ${media.below('tablet')} {
+  ${media.tablet} {
     padding-left: ${({ padding: [, tablet = ''] = [] }) => tablet}; 
     padding-right: ${({ padding: [, tablet = ''] = [] }) => tablet};
     max-width: ${({ gridWidth: [, tablet = ''] = [] }) => tablet};
   }
   
-  ${media.below('phone')} {
+  ${media.phone} {
     padding-left: ${({ padding: [, , phone = ''] = [] }) => phone};
     padding-right: ${({ padding: [, , phone = ''] = [] }) => phone};
     max-width: ${({ gridWidth: [, , phone = ''] = [] }) => phone};
