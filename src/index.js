@@ -1,34 +1,11 @@
 import styled, { css } from 'styled-components';
-import withViewport from './withViewport';
+import withViewport from './helpers/withViewport';
+import { getHalfMeasure, percentage } from './helpers';
 
 const wrapperGridWidth = '1200px';
 const fullWidth = '100vw';
 const gridGutter = '32px';
 const wrapperPadding = '16px';
-
-const isNaN = (value) => {
-  const n = Number(value);
-  const nSelf = n;
-  return nSelf !== n;
-};
-
-const getHalfMeasure = (measure) => {
-  if (!measure) {
-    return '';
-  }
-  const match = measure.match(/^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/);
-  if (!match) {
-    return '';
-  }
-  return Number(match[1]) === 0 ? '0' : `${match[1] / 2}${match[2]}`;
-};
-
-const percentage = (value) => {
-  if (isNaN(value)) {
-    return '';
-  }
-  return `${value * 100}%`;
-};
 
 const defaultSizes = {
   desktop: 1440,
