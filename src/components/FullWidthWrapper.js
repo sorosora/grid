@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { media } from '../helpers/breakpoints';
 import withViewport from '../helpers/withViewport';
 import { getHalfMeasure } from '../helpers';
+import { fullWidth } from '../helpers/defaultValue';
 
 const fullWidthWrapperStyle = css`
   position: relative;
