@@ -1,4 +1,7 @@
-import babel from 'rollup-plugin-babel'
+import resolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import pkg from './package.json';
 
 const globals = {
   react: 'React',
@@ -11,30 +14,42 @@ const external = [
 ];
 
 const plugins = [
+  resolve(),
   babel({
-    plugins: ['@babel/plugin-external-helpers']
-  })
+    exclude: 'node_modules/**',
+  }),
+  commonjs()
 ];
 
 export default [
   {
-    input: './lib/index.js',
+    input: 'src/index.js',
     external,
-    globals,
     plugins,
     output: {
-      file: 'dist/grid.js',
-      format: 'umd'
+      file: pkg.browser,
+      format: 'umd',
+      name: 'grid',
+      globals,
     },
   },
   {
-    input: './lib/withViewport.js',
-    external,
-    globals,
+    input: 'src/index.js',
+    external: external.concat('ms'),
     plugins,
-    output: {
-      file: 'dist/withViewport.js',
-      format: 'umd'
-    },
+    output: [
+      {
+        file: pkg.main,
+        format: 'cjs',
+        name: 'grid',
+        globals,
+      },
+      {
+        file: pkg.module,
+        format: 'es',
+        name: 'grid',
+        globals,
+      },
+    ]
   }
 ]
