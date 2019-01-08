@@ -16,6 +16,7 @@ const external = [
 const plugins = [
   resolve(),
   babel({
+    plugins: ["@babel/plugin-proposal-class-properties"],
     exclude: 'node_modules/**',
   }),
   commonjs()

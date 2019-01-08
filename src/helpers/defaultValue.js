@@ -7,5 +7,9 @@ const breakpoints = {
   tablet: '768px',
   phone: '0px',
 };
+const viewport = {
+  width: 1920,
+  isIE: false,
+};
 
-export { fullWidth, wrapperGridWidth, gridGutter, wrapperPadding, breakpoints };
+export { fullWidth, wrapperGridWidth, gridGutter, wrapperPadding, breakpoints, viewport };

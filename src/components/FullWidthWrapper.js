@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { media } from '../helpers/breakpoints';
 import withViewport from '../helpers/withViewport';
@@ -8,9 +9,9 @@ const fullWidthWrapperStyle = css`
   position: relative;
   left: 50%;
   right: 50%;
-  margin-left: ${({ viewport }) => (viewport.isIE ? `-${viewport.width / 2}px` : getHalfMeasure(`-${fullWidth}`))};
-  margin-right: ${({ viewport }) => (viewport.isIE ? `-${viewport.width / 2}px` : getHalfMeasure(`-${fullWidth}`))};
-  width: ${({ viewport }) => (viewport.isIE ? `${viewport.width}px` : fullWidth)};
+  margin-left: ${({ ie, viewport }) => (ie && viewport.isIE ? `-${viewport.width / 2}px` : getHalfMeasure(`-${fullWidth}`))};
+  margin-right: ${({ ie, viewport }) => (ie && viewport.isIE ? `-${viewport.width / 2}px` : getHalfMeasure(`-${fullWidth}`))};
+  width: ${({ ie, viewport }) => (ie && viewport.isIE ? `${viewport.width}px` : fullWidth)};
   overflow: hidden;
 `;
 
@@ -42,7 +43,7 @@ const checkFull = (desktop, tablet, phone) => {
   return (!desktop || !tablet) && phone ? fullWidthWrapperStyle : '';
 };
 
-const FullWidthWrapper = withViewport(styled.div`
+const Component = styled.div`
   ${({ enabled: [desktop = true] = [] }) => (desktop ? fullWidthWrapperStyle : '')};
   
   ${media.tablet} {
@@ -54,6 +55,15 @@ const FullWidthWrapper = withViewport(styled.div`
     ${({ enabled: [desktop = true, tablet, phone] = [] }) => checkReset(desktop, tablet, phone)};
     ${({ enabled: [desktop = true, tablet, phone] = [] }) => checkFull(desktop, tablet, phone)};
   }
-`);
+`;
+
+const FullWidthWrapper = styled((props) => {
+  const { ie } = props;
+  if (ie) {
+    const WithViewport = withViewport(Component);
+    return <WithViewport {...props} />;
+  }
+  return <Component {...props} />;
+})``;
 
 export default FullWidthWrapper;
