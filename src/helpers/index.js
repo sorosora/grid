@@ -41,10 +41,13 @@ const getGridSetting = (props, cssPropsMap) => {
 
 const getCssStyle = (cssPropsMap, gridSetting, breakpointKey) =>
   Object.keys(cssPropsMap).map(cssProp => {
-    const cssValue = getValue(gridSetting, `${cssPropsMap[cssProp]}.${breakpointKey}`, '');
+    let isObject = typeof cssPropsMap[cssProp] === 'object';
+    const gridSettingProp = isObject ? cssPropsMap[cssProp].name : cssPropsMap[cssProp];
+    const callback = isObject ? cssPropsMap[cssProp].callback : (value) => value;
+    const cssValue = getValue(gridSetting, `${gridSettingProp}.${breakpointKey}`, '');
     if (!cssValue) return;
     return `
-      ${cssProp}: ${cssValue};
+      ${cssProp}: ${callback(cssValue)};
     `
   }).join('');
 
