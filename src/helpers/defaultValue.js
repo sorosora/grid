@@ -11,5 +11,10 @@ const viewport = {
   width: 1920,
   isIE: false,
 };
+const defaultGrid = {
+  padding: [wrapperPadding],
+  gutter: [gridGutter],
+  gridWidth: [wrapperGridWidth],
+};
 
-export { fullWidth, wrapperGridWidth, gridGutter, wrapperPadding, breakpoints, viewport };
+export { fullWidth, wrapperGridWidth, gridGutter, wrapperPadding, breakpoints, viewport, defaultGrid };
