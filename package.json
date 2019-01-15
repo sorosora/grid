@@ -29,6 +29,7 @@
     "@babel/preset-react": "^7.0.0",
     "@sorosora/styled-breakpoints": "^5.0.1",
     "babel-plugin-styled-components": "^1.10.0",
+    "get-value": "^3.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "rollup-plugin-babel": "^4.2.0",
