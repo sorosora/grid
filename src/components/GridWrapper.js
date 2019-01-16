@@ -8,6 +8,7 @@ const GridWrapper = styled.div(
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+    box-sizing: border-box;
   `,
   (props) => {
     const styles = css`
