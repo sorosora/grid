@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 import { getCssWithMedia } from '../helpers';
 
 const GridWrapper = styled.div(
@@ -17,5 +18,10 @@ const GridWrapper = styled.div(
     return getCssWithMedia(props, styles);
   }
 );
+
+GridWrapper.propTypes = {
+  padding: PropTypes.arrayOf(PropTypes.string),
+  gridWidth: PropTypes.arrayOf(PropTypes.string),
+};
 
 export default GridWrapper;

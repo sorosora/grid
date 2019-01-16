@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 import { getHalfMeasure, getCssWithMedia } from '../helpers';
 import Col from './Col';
 
@@ -53,5 +54,11 @@ const Grid = styled.div(
     return getCssWithMedia(props, styles);
   }
 );
+
+Grid.propTypes = {
+  gutter: PropTypes.arrayOf(PropTypes.string),
+  verticalGutter: PropTypes.arrayOf(PropTypes.string),
+  showGrid: PropTypes.arrayOf(PropTypes.number),
+};
 
 export default Grid;

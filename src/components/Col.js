@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 import { percentage, getCssWithMedia } from '../helpers';
 
 const Col = styled.div(
@@ -20,5 +21,11 @@ const Col = styled.div(
     return getCssWithMedia(props, styles);
   }
 );
+
+Col.propTypes = {
+  width: PropTypes.arrayOf(PropTypes.number),
+  offset: PropTypes.arrayOf(PropTypes.number),
+  order: PropTypes.arrayOf(PropTypes.number),
+};
 
 export default Col;

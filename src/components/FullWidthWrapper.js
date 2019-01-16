@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css, ThemeConsumer } from 'styled-components';
+import PropTypes from 'prop-types';
 import getValue from 'get-value';
 import withViewport from '../helpers/withViewport';
 import { getHalfMeasure, getCssWithMedia } from '../helpers';
@@ -58,5 +59,10 @@ const FullWidthWrapper = styled((props) => {
     </ThemeConsumer>
   )
 })``;
+
+FullWidthWrapper.propTypes = {
+  enabled: PropTypes.arrayOf(PropTypes.bool),
+  ie: PropTypes.bool,
+};
 
 export default FullWidthWrapper;
