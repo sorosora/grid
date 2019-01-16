@@ -1,35 +1,24 @@
-import styled from 'styled-components';
-import { media } from '../helpers/breakpoints';
-import { percentage } from '../helpers';
+import styled, { css } from 'styled-components';
+import { percentage, getCssWithMedia } from '../helpers';
 
-const Col = styled.div`
-  display: ${({ width: [desktop] = [] }) => (desktop === 0 ? 'none' : 'block')};
-  flex: 1 1;
-  flex-basis: ${({ width: [desktop] = [] }) => percentage(desktop)};
-  order: ${({ order: [desktop] = [] }) => desktop};
-  margin-left: ${({ offset: [desktop] = [] }) => percentage(desktop)};
-  /* in order to fix float overflow when margin-left is negative */
-  margin-right: ${({ offset: [desktop] = [] }) => (desktop < 0 ? percentage(desktop) : '')};
-  max-width: ${({ width: [desktop] = [] }) => percentage(desktop)};
-  font-size: 0;
-  
-  ${media.tablet} {
-    display: ${({ width: [, tablet] = [] }) => (tablet === 0 ? 'none' : 'block')};
-    flex-basis: ${({ width: [, tablet] = [] }) => percentage(tablet)};
-    order: ${({ order: [, tablet] = [] }) => tablet};
-    margin-left: ${({ offset: [, tablet] = [] }) => percentage(tablet)};
-    margin-right: ${({ offset: [, tablet] = [] }) => (tablet < 0 ? percentage(tablet) : '')};
-    max-width: ${({ width: [, tablet] = [] }) => percentage(tablet)};
+const Col = styled.div(
+  css`
+    flex: 1 1 auto;
+    font-size: 0;
+  `,
+  (props) => {
+    const { width, offset, order } = props;
+    const styles = css`
+      display: ${(gridSetting, breakpointKey) => width && width[breakpointKey] === 0 ? 'none' : ''};
+      flex-basis: ${(gridSetting, breakpointKey) => width ? percentage(width[breakpointKey]) : ''};
+      order: ${(gridSetting, breakpointKey) => order ? order[breakpointKey] : ''};
+      margin-left: ${(gridSetting, breakpointKey) => offset ? percentage(offset[breakpointKey]) : ''};
+      /* in order to fix float overflow when margin-left is negative */
+      margin-right: ${(gridSetting, breakpointKey) => offset && offset[breakpointKey] < 0 ? percentage(offset[breakpointKey]) : ''};
+      max-width: ${(gridSetting, breakpointKey) => width ? percentage(width[breakpointKey]) : ''};
+  `;
+    return getCssWithMedia(props, styles);
   }
-  
-  ${media.phone} {
-    display: ${({ width: [, , phone] = [] }) => (phone === 0 ? 'none' : 'block')};
-    flex-basis: ${({ width: [, , phone] = [] }) => percentage(phone)};
-    order: ${({ order: [, , phone] = [] }) => phone};
-    margin-left: ${({ offset: [, , phone] = [] }) => percentage(phone)};
-    margin-right: ${({ offset: [, , phone] = [] }) => (phone < 0 ? percentage(phone) : '')};
-    max-width: ${({ width: [, , phone] = [] }) => percentage(phone)};
-  }
-`;
+);
 
 export default Col;
