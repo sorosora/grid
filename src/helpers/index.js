@@ -27,10 +27,10 @@ const percentage = (value) => {
   return `${value * 100}%`;
 };
 
-const getGridSetting = (props, cssPropsMap) => {
+const getGridSetting = (props) => {
   // custom grid setting
   let customGrid = {};
-  Object.values(cssPropsMap).forEach(prop => {
+  Object.keys(defaultGrid).forEach(prop => {
     if (props[prop]) customGrid[prop] = props[prop];
   });
   // theme grid setting
@@ -39,38 +39,25 @@ const getGridSetting = (props, cssPropsMap) => {
   return {...defaultGrid, ...themeGrid, ...customGrid};
 };
 
-const getCssStyle = (cssPropsMap, gridSetting, breakpointKey) =>
-  Object.keys(cssPropsMap).map(cssProp => {
-    let isObject = typeof cssPropsMap[cssProp] === 'object';
-    const gridSettingProp = isObject ? cssPropsMap[cssProp].name : cssPropsMap[cssProp];
-    const callback = isObject ? cssPropsMap[cssProp].callback : (value) => value;
-    const cssValue = getValue(gridSetting, `${gridSettingProp}.${breakpointKey}`, '');
-    if (!cssValue) return;
-    return `
-      ${cssProp}: ${callback(cssValue)};
-    `
-  }).join('');
+const getCssStyle = (styles, gridSetting, breakpointKey) =>
+  styles.map(style => {
+    let isFunc = typeof style === 'function';
+    if (!isFunc) return style;
+    return style(gridSetting, breakpointKey);
+  });
 
 // get css style with different breakpoints
-const getCssWithBreakpoints = (props, cssPropsMap) => {
-  const gridSetting = getGridSetting(props, cssPropsMap);
+const getCssWithMedia = (props, styles) => {
+  const gridSetting = getGridSetting(props);
   return Object.keys(breakpoints).map((breakpoint, key) => {
-    const cssStyle = getCssStyle(cssPropsMap, gridSetting, key);
+    const cssStyle = getCssStyle(styles, gridSetting, key);
     return css`
       /* desktop-first */
-      ${cssStyle && breakpoint !== 'desktop' ? `${media[breakpoint]} {` : ''};
+      ${breakpoint !== 'desktop' ? `${media[breakpoint]} {` : ''};
       ${cssStyle}
-      ${cssStyle && breakpoint !== 'desktop' ? '}' : ''};
+      ${breakpoint !== 'desktop' ? '}' : ''};
     `
   });
 };
 
-/**
- * @param props
- * @param {object} cssPropsMap - {cssProp: gridSettingProp}
- * @param {css} base - base css style
- * @returns {*[]}
- */
-const getCss = (props, cssPropsMap, base = css``) => [].concat(base, getCssWithBreakpoints(props, cssPropsMap));
-
-export { isNaN, getHalfMeasure, percentage, getCss };
+export { isNaN, getHalfMeasure, percentage, getCssWithMedia };
