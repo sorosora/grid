@@ -5,7 +5,6 @@ import { percentage, getCssWithMedia } from '../helpers';
 const Col = styled.div(
   css`
     flex: 1 1 auto;
-    font-size: 0;
   `,
   (props) => {
     const { width, offset, order } = props;
