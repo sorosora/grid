@@ -52,6 +52,37 @@ const Grid = styled.div(
       }
     `;
     return getCssWithMedia(props, styles);
+  },
+  (props) => {
+    if (!props.showCol) return;
+    return css`
+      ${Col} {
+        position: relative;
+        
+        :after {
+          content: '';
+          position: absolute;
+          border-top: solid 5px hsla(260,100%,54%,0.7);
+          border-bottom: solid 5px hsla(140, 100%, 54%, 0.7);
+          border-left: solid 5px hsla(260,100%,54%,0.7);
+          border-right: solid 5px hsla(140, 100%, 54%, 0.7);
+        }
+      }
+    `;
+  },
+  (props) => {
+    if (!props.showCol) return;
+    const styles = css`
+      ${Col} {
+        :after {
+          top: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.verticalGutter[breakpointKey])};
+          bottom: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.verticalGutter[breakpointKey])};
+          left: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.gutter[breakpointKey])};
+          right: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.gutter[breakpointKey])};
+        }
+      }
+    `;
+    return getCssWithMedia(props, styles);
   }
 );
 
@@ -59,6 +90,7 @@ Grid.propTypes = {
   gutter: PropTypes.arrayOf(PropTypes.string),
   verticalGutter: PropTypes.arrayOf(PropTypes.string),
   showGrid: PropTypes.arrayOf(PropTypes.number),
+  showCol: PropTypes.bool,
 };
 
 export default Grid;
