@@ -1,69 +1,62 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { media } from '../helpers/breakpoints';
+import styled, { css, ThemeConsumer } from 'styled-components';
+import getValue from 'get-value';
 import withViewport from '../helpers/withViewport';
-import { getHalfMeasure } from '../helpers';
-import { fullWidth } from '../helpers/defaultValue';
+import { getHalfMeasure, getCssWithMedia } from '../helpers';
 
-const fullWidthWrapperStyle = css`
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: ${({ ie, viewport }) => (ie && viewport.isIE ? `-${viewport.width / 2}px` : getHalfMeasure(`-${fullWidth}`))};
-  margin-right: ${({ ie, viewport }) => (ie && viewport.isIE ? `-${viewport.width / 2}px` : getHalfMeasure(`-${fullWidth}`))};
-  width: ${({ ie, viewport }) => (ie && viewport.isIE ? `${viewport.width}px` : fullWidth)};
-  overflow: hidden;
-`;
+const getMargin = (ie, viewport) => (ie && viewport.isIE ? `-${viewport.width / 2}px` : getHalfMeasure('-100vw'));
 
-const fullWidthReset = css`
-  left: auto;
-  right: auto;
-  margin-left: 0;
-  margin-right: 0;
-  width: 100%;
-`;
+const getWidth = (ie, viewport) => (ie && viewport.isIE ? `${viewport.width}px` : '100vw');
 
-const checkReset = (desktop, tablet, phone) => {
-  if (typeof tablet === 'undefined' && typeof phone === 'undefined') {
-    return '';
+const Component = styled.div(
+  css`
+    position: relative;
+    overflow: hidden;
+  `,
+  (props) => {
+    const { viewport } = props;
+    const styles = css`
+      left: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? '50%' : 'auto'};
+      right: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? '50%' : 'auto'};
+      margin-left: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? getMargin(gridSetting.ie, viewport) : 0};
+      margin-right: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? getMargin(gridSetting.ie, viewport) : 0};
+      width: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? getWidth(gridSetting.ie, viewport) : '100%'};
+    `;
+    return getCssWithMedia(props, styles);
   }
-  if (typeof phone === 'undefined') {
-    return desktop && !tablet ? fullWidthReset : '';
-  }
-  return (desktop || tablet) && !phone ? fullWidthReset : '';
-};
-
-const checkFull = (desktop, tablet, phone) => {
-  if (typeof tablet === 'undefined' && typeof phone === 'undefined') {
-    return '';
-  }
-  if (typeof phone === 'undefined') {
-    return !desktop && tablet ? fullWidthWrapperStyle : '';
-  }
-  return (!desktop || !tablet) && phone ? fullWidthWrapperStyle : '';
-};
-
-const Component = styled.div`
-  ${({ enabled: [desktop = true] = [] }) => (desktop ? fullWidthWrapperStyle : '')};
-  
-  ${media.tablet} {
-    ${({ enabled: [desktop = true, tablet] = [] }) => checkReset(desktop, tablet)};
-    ${({ enabled: [desktop = true, tablet] = [] }) => checkFull(desktop, tablet)};
-  }
-  
-  ${media.phone} {
-    ${({ enabled: [desktop = true, tablet, phone] = [] }) => checkReset(desktop, tablet, phone)};
-    ${({ enabled: [desktop = true, tablet, phone] = [] }) => checkFull(desktop, tablet, phone)};
-  }
-`;
+);
 
 const FullWidthWrapper = styled((props) => {
-  const { ie } = props;
-  if (ie) {
+  const customGridIe = props.ie;
+  try {
+    const isStyledComponentsV4 = !!ThemeConsumer;
+    if (customGridIe === false && !isStyledComponentsV4) {
+      throw `Disabling IE supporting for <FullWidthWrapper /> below styled-components v4 is not allowed`;
+    }
+    if (!isStyledComponentsV4) {
+      throw '';
+    }
+  } catch (e) {
+    if (e) {
+      console.warn('@sorosora/grid:', e);
+    }
     const WithViewport = withViewport(Component);
     return <WithViewport {...props} />;
   }
-  return <Component {...props} />;
+  return (
+    <ThemeConsumer>
+      {
+        (theme) => {
+          const themeGridIe = getValue(theme, 'grid.ie');
+          if (customGridIe !== false && themeGridIe !== false && (customGridIe || themeGridIe)) {
+            const WithViewport = withViewport(Component);
+            return <WithViewport {...props} />;
+          }
+          return <Component {...props} />;
+        }
+      }
+    </ThemeConsumer>
+  )
 })``;
 
 export default FullWidthWrapper;

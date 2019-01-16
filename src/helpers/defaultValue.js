@@ -1,4 +1,3 @@
-const fullWidth = '100vw';
 const wrapperGridWidth = '1200px';
 const gridGutter = '32px';
 const gridVerticalGutter = '0';
@@ -17,6 +16,8 @@ const defaultGrid = {
   gutter: [gridGutter],
   verticalGutter: [gridVerticalGutter],
   gridWidth: [wrapperGridWidth],
+  enabled: [true],
+  ie: false,
 };
 
-export { fullWidth, wrapperGridWidth, gridGutter, wrapperPadding, breakpoints, viewport, defaultGrid };
+export { wrapperGridWidth, gridGutter, wrapperPadding, breakpoints, viewport, defaultGrid };
