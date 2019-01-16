@@ -12,7 +12,6 @@ const getWidth = (ie, viewport) => (ie && viewport.isIE ? `${viewport.width}px` 
 const Component = styled.div(
   css`
     position: relative;
-    overflow: hidden;
   `,
   (props) => {
     const { viewport } = props;
