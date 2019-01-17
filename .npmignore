@@ -1,3 +1,7 @@
 .babelrc
 rollup.config.js
 .idea
+/index.html
+/index.js
+.cache
+build

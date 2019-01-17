@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build:dist",
     "prebuild:dist": "rm -rf dist/*",
-    "build:dist": "rollup -c"
+    "build:dist": "rollup -c",
+    "dev": "npm run build && parcel index.html -d build"
   },
   "keywords": [
     "react",
