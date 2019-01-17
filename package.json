@@ -1,6 +1,6 @@
 {
   "name": "@sorosora/grid",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "grid system for [styled-components](https://github.com/styled-components/styled-components).",
   "main": "dist/grid.cjs.js",
   "module": "dist/grid.esm.js",
