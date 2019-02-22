@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css, ThemeConsumer } from 'styled-components';
+import styled, { css, withTheme } from 'styled-components';
 import PropTypes from 'prop-types';
 import getValue from 'get-value';
 import withViewport from '../helpers/withViewport';
@@ -9,7 +9,9 @@ const getMargin = (ie, viewport) => (ie && viewport.isIE ? `-${viewport.width / 
 
 const getWidth = (ie, viewport) => (ie && viewport.isIE ? `${viewport.width}px` : '100vw');
 
-const Component = styled.div(
+const components = {};
+
+components.FullWidthWrapper = styled.div(
   css`
     position: relative;
   `,
@@ -26,42 +28,21 @@ const Component = styled.div(
   }
 );
 
-const FullWidthWrapper = styled((props) => {
+const FullWidthWrapperWithViewport = withViewport(components.FullWidthWrapper);
+
+const FullWidthWrapper = (props) => {
   const customGridIe = props.ie;
-  try {
-    const isStyledComponentsV4 = !!ThemeConsumer;
-    if (customGridIe === false && !isStyledComponentsV4) {
-      throw `Disabling IE supporting for <FullWidthWrapper /> below styled-components v4 is not allowed`;
-    }
-    if (!isStyledComponentsV4) {
-      throw '';
-    }
-  } catch (e) {
-    if (e) {
-      console.warn('@sorosora/grid:', e);
-    }
-    const WithViewport = withViewport(Component);
-    return <WithViewport {...props} />;
+  const { theme, ...otherProps } = props;
+  const themeGridIe = getValue(theme, 'grid.ie');
+  if (customGridIe !== false && themeGridIe !== false && (customGridIe || themeGridIe)) {
+    return <FullWidthWrapperWithViewport {...otherProps} />;
   }
-  return (
-    <ThemeConsumer>
-      {
-        (theme) => {
-          const themeGridIe = getValue(theme, 'grid.ie');
-          if (customGridIe !== false && themeGridIe !== false && (customGridIe || themeGridIe)) {
-            const WithViewport = withViewport(Component);
-            return <WithViewport {...props} />;
-          }
-          return <Component {...props} />;
-        }
-      }
-    </ThemeConsumer>
-  )
-})``;
+  return <components.FullWidthWrapper {...otherProps} />;
+};
 
 FullWidthWrapper.propTypes = {
   enabled: PropTypes.arrayOf(PropTypes.bool),
   ie: PropTypes.bool,
 };
 
-export default FullWidthWrapper;
+export default styled(withTheme(FullWidthWrapper))``;
