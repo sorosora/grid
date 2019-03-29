@@ -18,6 +18,7 @@ const defaultGrid = {
   gridWidth: [wrapperGridWidth],
   enabled: [true],
   ie: false,
+  overflowHidden: [false, false, false],
 };
 
 export { wrapperGridWidth, gridGutter, wrapperPadding, breakpoints, viewport, defaultGrid };

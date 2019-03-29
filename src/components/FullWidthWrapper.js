@@ -23,6 +23,7 @@ components.FullWidthWrapper = styled.div(
       margin-left: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? getMargin(gridSetting.ie, viewport) : 0};
       margin-right: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? getMargin(gridSetting.ie, viewport) : 0};
       width: ${(gridSetting, breakpointKey) => gridSetting.enabled[breakpointKey] ? getWidth(gridSetting.ie, viewport) : '100%'};
+      overflow: ${(gridSetting, breakpointKey) => gridSetting.overflowHidden[breakpointKey] ? 'hidden' : 'visible'};
     `;
     return getCssWithMedia(props, styles);
   }
