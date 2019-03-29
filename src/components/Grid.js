@@ -15,7 +15,7 @@ const Grid = styled.div(
       margin-left: ${(gridSetting, breakpointKey) => getHalfMeasure(`-${gridSetting.gutter[breakpointKey]}`)};
       margin-right: ${(gridSetting, breakpointKey) => getHalfMeasure(`-${gridSetting.gutter[breakpointKey]}`)};
       
-      ${Col} {
+      > ${Col} {
         padding-top: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.verticalGutter[breakpointKey])};
         padding-bottom: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.verticalGutter[breakpointKey])};
         padding-left: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.gutter[breakpointKey])};
@@ -56,7 +56,7 @@ const Grid = styled.div(
   (props) => {
     if (!props.showCol) return;
     return css`
-      ${Col} {
+      > ${Col} {
         position: relative;
         
         :after {
@@ -73,7 +73,7 @@ const Grid = styled.div(
   (props) => {
     if (!props.showCol) return;
     const styles = css`
-      ${Col} {
+      > ${Col} {
         :after {
           top: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.verticalGutter[breakpointKey])};
           bottom: ${(gridSetting, breakpointKey) => getHalfMeasure(gridSetting.verticalGutter[breakpointKey])};
