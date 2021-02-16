@@ -87,9 +87,9 @@ const Grid = styled.div(
 );
 
 Grid.propTypes = {
-  gutter: PropTypes.arrayOf(PropTypes.string),
-  verticalGutter: PropTypes.arrayOf(PropTypes.string),
-  showGrid: PropTypes.arrayOf(PropTypes.number),
+  gutter: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.string), PropTypes.arrayOf(PropTypes.string)]),
+  verticalGutter: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.string), PropTypes.arrayOf(PropTypes.string)]),
+  showGrid: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.number), PropTypes.arrayOf(PropTypes.number)]),
   showCol: PropTypes.bool,
 };
 

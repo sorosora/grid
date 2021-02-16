@@ -12,6 +12,7 @@ const viewport = {
   isIE: false,
 };
 const defaultGrid = {
+  breakpoints,
   padding: [wrapperPadding],
   gutter: [gridGutter],
   verticalGutter: [gridVerticalGutter],

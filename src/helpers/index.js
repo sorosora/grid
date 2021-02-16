@@ -1,7 +1,11 @@
 import { css } from 'styled-components';
 import getValue from 'get-value';
-import { media } from './breakpoints';
-import { breakpoints, defaultGrid } from './defaultValue';
+import { createBreakpoints } from '@sorosora/styled-breakpoints';
+import { defaultGrid } from './defaultValue';
+
+let media;
+
+let breakpointsArray;
 
 const isNaN = (value) => {
   const n = Number(value);
@@ -27,6 +31,42 @@ const percentage = (value) => {
   return `${value * 100}%`;
 };
 
+const breakpointsToArray = (breakpoints) => {
+  const result = Object.keys(breakpoints).map(key => ({
+    name: key,
+    value: breakpoints[key],
+  }));
+  result.sort((a, b) => parseInt(b.value, 10) - parseInt(a.value, 10));
+  return result;
+};
+
+const gridObjectToArray = (gridSetting) => {
+  const copyGridSetting = gridSetting;
+  const valueArray = [];
+  Object.keys(gridSetting).forEach(prop => {
+    switch(prop) {
+      case 'padding':
+      case 'gutter':
+      case 'verticalGutter':
+      case 'gridWidth':
+      case 'overflowHidden':
+      case 'width':
+      case 'offset':
+      case 'order':
+      case 'enabled':
+      case 'showGrid':
+        if (typeof gridSetting[prop] !== 'object' || Array.isArray(gridSetting[prop])) break;
+        breakpointsArray.forEach(breakpoint => {
+          valueArray.push(gridSetting[prop][breakpoint.name])
+        });
+        copyGridSetting[prop] = valueArray;
+        break;
+      default:
+    }
+  });
+  return copyGridSetting;
+};
+
 const getGridSetting = (props) => {
   // custom grid setting
   let customGrid = {};
@@ -36,7 +76,11 @@ const getGridSetting = (props) => {
   // theme grid setting
   const themeGrid = getValue(props, 'theme.grid', { default: {} });
   // combine all grid settings
-  return {...defaultGrid, ...themeGrid, ...customGrid};
+  const gridSetting = {...defaultGrid, ...themeGrid, ...customGrid};
+  if (!breakpointsArray) {
+    breakpointsArray = breakpointsToArray(gridSetting.breakpoints);
+  }
+  return gridObjectToArray(gridSetting);
 };
 
 const getCssStyle = (styles, gridSetting, breakpointKey) =>
@@ -49,13 +93,22 @@ const getCssStyle = (styles, gridSetting, breakpointKey) =>
 // get css style with different breakpoints
 const getCssWithMedia = (props, styles) => {
   const gridSetting = getGridSetting(props);
-  return Object.keys(breakpoints).map((breakpoint, key) => {
+  if (!media) {
+    media = {};
+    const { max } = createBreakpoints(gridSetting.breakpoints);
+    breakpointsArray.forEach(breakpoint => {
+      if (breakpoint.name !== 'desktop') {
+        media[breakpoint.name] = max(breakpoint.name);
+      }
+    });
+  }
+  return breakpointsArray.map((breakpoint, key) => {
     const cssStyle = getCssStyle(styles, gridSetting, key);
     return css`
       /* desktop-first */
-      ${breakpoint !== 'desktop' ? `${media[breakpoint]} {` : ''};
+      ${breakpoint.name !== 'desktop' ? `${media[breakpoint.name]} {` : ''};
       ${cssStyle}
-      ${breakpoint !== 'desktop' ? '}' : ''};
+      ${breakpoint.name !== 'desktop' ? '}' : ''};
     `
   });
 };

@@ -23,9 +23,9 @@ const Col = styled.div(
 );
 
 Col.propTypes = {
-  width: PropTypes.arrayOf(PropTypes.number),
-  offset: PropTypes.arrayOf(PropTypes.number),
-  order: PropTypes.arrayOf(PropTypes.number),
+  width: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.number), PropTypes.arrayOf(PropTypes.number)]),
+  offset: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.number), PropTypes.arrayOf(PropTypes.number)]),
+  order: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.number), PropTypes.arrayOf(PropTypes.number)]),
 };
 
 export default Col;

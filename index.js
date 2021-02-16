@@ -11,11 +11,21 @@ function App() {
   return (
     <ThemeProvider theme={{
       grid: {
+        breakpoints: {
+          desktop: '1440px',
+          tablet: '1200px',
+          phone: '0px',
+        },
         padding: ['30px'],
         gridWidth: ['1000px'],
       },
     }}>
-      <GridWrapper padding={['10px', '20px', '30px']} gridWidth={['1200px']}>
+      <GridWrapper
+        padding={{
+          desktop: '10px', tablet: '20px', phone: '30px',
+        }}
+        gridWidth={['1200px']}
+      >
         <FullWidthWrapper enabled={[false, true, false]}>
           <Grid gutter={['10px', '16px', '12px']} verticalGutter={['20px']} showGrid={[12, 8, 4]} showCol>
             <Col width={[2 / 12, 2 / 8, 1 / 4]}>

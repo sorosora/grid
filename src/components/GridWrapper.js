@@ -21,8 +21,8 @@ const GridWrapper = styled.div(
 );
 
 GridWrapper.propTypes = {
-  padding: PropTypes.arrayOf(PropTypes.string),
-  gridWidth: PropTypes.arrayOf(PropTypes.string),
+  padding: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.string), PropTypes.arrayOf(PropTypes.string)]),
+  gridWidth: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.string), PropTypes.arrayOf(PropTypes.string)]),
 };
 
 export default GridWrapper;

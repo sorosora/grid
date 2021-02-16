@@ -42,7 +42,7 @@ const FullWidthWrapper = (props) => {
 };
 
 FullWidthWrapper.propTypes = {
-  enabled: PropTypes.arrayOf(PropTypes.bool),
+  enabled: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.bool), PropTypes.arrayOf(PropTypes.bool)]),
   ie: PropTypes.bool,
 };
 
